@@ -28,8 +28,26 @@ Always change the formula through a pull request, so that bottles are built:
 3. In the Actions tab, run the "brew pr-pull" workflow with the pull request
    number.
 
-Until the first bottles are published, `brew install` builds from source,
-which works but takes longer.
+On a Mac with no bottle for its macOS version, Homebrew uses the bottle for
+the newest older version. With no older bottle either, `brew install` builds
+from source, which works but takes longer.
+
+## New macOS versions
+
+Add each new macOS version to the `os` list in `.github/workflows/tests.yml`
+once GitHub offers a runner for it (see the
+[runner images list](https://github.com/actions/runner-images#available-images)),
+for example `os: [ macos-15, macos-26, macos-27 ]`. `brew test-bot` only
+builds formulae that a pull request changes, so the new bottle is built with
+the next formula change, usually the next QEMU update.
+
+Until then, the previous version's bottle is used. On macOS 27 that works with
+one exception. Apple removed parts of the ParavirtualizedGraphics interface
+that `qemu-system-aarch64`'s `apple-gfx-mmio` and `apple-gfx-pci` devices use
+([QEMU issue 4486](https://gitlab.com/qemu-project/qemu/-/work_items/4486)).
+Built on macOS 27, the formula leaves those devices out with `--disable-pvg`,
+like Homebrew's qemu. The macOS 26 bottle still includes them, and they will
+probably fail when used on macOS 27. This hasn't been tested on macOS 27.
 
 ## Updating to a new QEMU release
 

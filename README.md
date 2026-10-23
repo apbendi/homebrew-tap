@@ -122,8 +122,9 @@ xcode-select --install
 # Build tools and libraries
 brew install python ninja pkgconf glib pixman libslirp
 
-# Get the patched source (a shallow copy, so the download stays small)
-git clone --depth 1 --branch cocoa-zoom-strips https://github.com/apbendi/qemu.git qemu-hidpi
+# Get the patched source for this release (a shallow copy, so the download
+# stays small). Git prints a note about "detached HEAD"; that's expected.
+git clone --depth 1 --branch v11.1.2-hidpi https://github.com/apbendi/qemu.git qemu-hidpi
 cd qemu-hidpi
 
 # Configure for the machines you want, then build
@@ -213,10 +214,13 @@ builds the official QEMU 11.1.2 source from
 - [ui/cocoa: Add scale option and exact zoom menu
   items](https://github.com/apbendi/qemu/commit/a8d76c76e94dfaba0cbedbb0f1ee8a7a3c569a66)
 
-The full patched source is the
+The full patched source for this release is the
+[`v11.1.2-hidpi`](https://github.com/apbendi/qemu/tree/v11.1.2-hidpi) tag of
+[apbendi/qemu](https://github.com/apbendi/qemu). The tag for each release is
+kept permanently. The patches are developed on the
 [`cocoa-zoom-strips`](https://github.com/apbendi/qemu/tree/cocoa-zoom-strips)
-branch of [apbendi/qemu](https://github.com/apbendi/qemu). Each commit message
-explains its change in detail, including how it was tested.
+branch, which moves to each new QEMU release. Each commit message explains its
+change in detail, including how it was tested.
 
 QEMU is a trademark of Fabrice Bellard. This tap is not affiliated with or
 endorsed by the QEMU project.

@@ -39,12 +39,25 @@ When autobump opens a pull request, or by hand:
    tag, resolving any conflicts in `ui/cocoa.m`, `qapi/ui.json` and
    `qemu-options.hx`. Build it and check the window sizes and View menu items
    before pushing.
-2. Point the two `patch` blocks at the rebased commits. Download each
+2. Tag the rebased branch and push the tag, for example:
+
+   ```sh
+   git tag -a v11.2.0-hidpi -m "QEMU 11.2.0 with unofficial HiDPI Cocoa display patches"
+   git push origin cocoa-zoom-strips --force-with-lease
+   git push origin v11.2.0-hidpi
+   ```
+
+   Never delete or move an old tag. The rebase leaves the previous commits on no
+   branch, and the tag is what keeps them on GitHub. That keeps older versions'
+   patch links working and the source for already published bottles available,
+   which the GPL requires. If the patches change without a new QEMU release, use
+   a new tag such as `v11.1.2-hidpi2` and add `revision 1` to the formula.
+3. Point the two `patch` blocks at the new commits. Download each
    `https://github.com/apbendi/qemu/commit/<sha>.patch?full_index=1` and use
    `shasum -a 256` on it for the new `sha256`.
-3. Copy any changes to dependencies, `install` or `test` from Homebrew's qemu
+4. Copy any changes to dependencies, `install` or `test` from Homebrew's qemu
    formula for the same version.
-4. Check it locally, then open the pull request:
+5. Check it locally, then open the pull request:
 
    ```sh
    brew style apbendi/tap
@@ -53,7 +66,7 @@ When autobump opens a pull request, or by hand:
    brew test apbendi/tap/qemu-hidpi
    ```
 
-5. Update the version and patch links in README.md.
+6. Update the version, tag and patch links in README.md.
 
 If the QEMU project fixes these problems itself, remove the corresponding
 patch, and retire the tap once both are fixed upstream.

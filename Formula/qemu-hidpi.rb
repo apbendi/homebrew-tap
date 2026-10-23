@@ -13,6 +13,12 @@ class QemuHidpi < Formula
     regex(/href=.*?qemu[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/apbendi/homebrew-tap/releases/download/qemu-hidpi-11.1.2"
+    sha256 arm64_tahoe:   "d9855c0ee87c82498db4209fa15607c68368ba0d48450accb907fd9a9348ae13"
+    sha256 arm64_sequoia: "d601a9701d584b2bc7c13bafe5b71f7347284667dfcb844278fe2220dfef7fa8"
+  end
+
   keg_only "it installs the same commands as Homebrew's qemu"
 
   depends_on "bison" => :build # >= 3.0

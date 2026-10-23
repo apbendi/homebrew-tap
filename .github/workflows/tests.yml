@@ -17,14 +17,11 @@ jobs:
   test-bot:
     strategy:
       matrix:
-        os: [ macos-26 ]
-        include:
-          - os: ubuntu-latest
-            container:
-              image: ghcr.io/homebrew/brew:main
-              options: --privileged
+        # Apple Silicon only: the fixes are for the macOS Cocoa display, and
+        # Homebrew only uses a bottle on the macOS version it was built for
+        # or newer, so build on each supported version.
+        os: [ macos-15, macos-26 ]
     runs-on: ${{ matrix.os }}
-    container: ${{ fromJSON(toJSON(matrix.container)) }} # zizmor: ignore[unpinned-images]
     permissions:
       actions: read
       checks: read
